@@ -9,15 +9,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Test {
 
+	static WebDriver driver;
+	static WebElement searchField = driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input"));	
+	static List<WebElement> results = driver.findElements(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[2]/div[2]/div[2]/ul/child::li"));
+	
 	public static void main(String[] args) throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Tomer\\Desktop\\Selenium\\chromeVer95//chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
+		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		driver.get("https://www.google.com/webhp");
-		WebElement searchField = driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input"));		
+		driver.get("https://www.google.com/webhp");				
 		searchField.sendKeys("what is a test");
-		Thread.sleep(500);
-		List<WebElement> results = driver.findElements(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[2]/div[2]/div[2]/ul/child::li"));
+		Thread.sleep(500);		
 		for (int i = 0; i < results.size(); i++) {
 			String x = results.get(i).getText();
 			if (x.contains("what is a test")) {
