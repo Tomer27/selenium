@@ -1,5 +1,7 @@
 package selenium;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -58,7 +60,9 @@ public class stockInfo {
 	
 	
 	public static void main(String[] args) throws InterruptedException {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Tomer\\Desktop\\Selenium\\chromeVer95//chromedriver.exe"); // enter path to chromedriver.exe on your PC
+		// enter path to 'chromedriver.exe' on your PC
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Tomer\\Desktop\\Selenium\\chromeVer95//chromedriver.exe"); 
+		
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.get("https://www.marketwatch.com/");
@@ -79,6 +83,11 @@ public class stockInfo {
 				continue;
 			}
 		}
+		
+		// print to console: current date and time
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println(dtf.format(now));
 		
 		// print to console: yields by durations
 		System.out.println(stockName(driver).getText() + " yields:");
