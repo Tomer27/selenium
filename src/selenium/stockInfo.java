@@ -58,6 +58,12 @@ public class stockInfo {
 		return yields;
 	}
 	
+	// current stock price
+	static public WebElement currentPrice(WebDriver driver) {
+		WebElement currentPrice = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[2]/div[3]/div/div[2]/h2/bg-quote"));
+		return currentPrice;
+	}
+	
 	
 	public static void main(String[] args) throws InterruptedException {
 		// enter path to 'chromedriver.exe' on your PC
@@ -89,8 +95,11 @@ public class stockInfo {
 		LocalDateTime now = LocalDateTime.now();
 		System.out.println(dtf.format(now));
 		
+		// print to console: current price
+		System.out.println(stockName(driver).getText() + " current price is " + currentPrice(driver).getText() + "$");
+		
 		// print to console: yields by durations
-		System.out.println(stockName(driver).getText() + " yields:");
+		System.out.println("It's yields are:");
 		Thread.sleep(1500);
 		for (int i = 0; i < durations(driver).size(); i++) {
 			String durX = durations(driver).get(i).getText();
