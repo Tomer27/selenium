@@ -18,8 +18,12 @@ public class Test {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.get("https://www.google.com/webhp");				
+		
+		// enter the following string to the 'search' field
 		searchField.sendKeys("what is a test");
-		Thread.sleep(500);		
+		Thread.sleep(500);
+		
+		// click on the 1st option containig the string
 		for (int i = 0; i < results.size(); i++) {
 			String x = results.get(i).getText();
 			if (x.contains("what is a test")) {
@@ -28,6 +32,8 @@ public class Test {
 			}
 		}
 		Thread.sleep(1500);
+		
+		// enter the description of the searched string to 'desc' & print to console
 		String desc = driver.findElement(By.xpath("//*[@id=\"kp-wp-tab-overview\"]/div/div/div/div/div/div/div/div/div/span[1]")).getText();
 		System.out.println(desc);
 		
