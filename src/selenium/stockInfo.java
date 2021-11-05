@@ -58,7 +58,7 @@ public class stockInfo {
 	
 	
 	public static void main(String[] args) throws InterruptedException {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Tomer\\Desktop\\Selenium\\chromeVer95//chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Tomer\\Desktop\\Selenium\\chromeVer95//chromedriver.exe"); // enter path to chromedriver.exe on your PC
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.get("https://www.marketwatch.com/");
