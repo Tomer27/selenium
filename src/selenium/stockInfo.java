@@ -105,12 +105,6 @@ public class stockInfo {
 		return clearStartBtn;
 	}
 	
-	// 'start date' field - 'close' button
-	static public WebElement closeStartBtn(WebDriver driver) {
-		WebElement closeStartBtn = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[6]/div/mw-downloaddata/form/div/div[2]/div[1]/div/div/div/footer/a[3]"));
-		return closeStartBtn;
-	}
-	
 	// 'end date' field
 	static public WebElement endDateField(WebDriver driver) {
 		WebElement endDateField = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[6]/div/mw-downloaddata/form/div/div[2]/div[2]/input"));
@@ -121,12 +115,6 @@ public class stockInfo {
 	static public WebElement clearEndBtn(WebDriver driver) {
 		WebElement clearEndBtn = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[6]/div/mw-downloaddata/form/div/div[2]/div[2]/div/div/div/footer/a[2]"));
 		return clearEndBtn;
-	}
-	
-	// 'end date' field - 'close' button
-	static public WebElement closeEndBtn(WebDriver driver) {
-		WebElement closeEndBtn = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div[6]/div/mw-downloaddata/form/div/div[2]/div[2]/div/div/div/footer/a[3]"));
-		return closeEndBtn;
 	}
 		
 	// 'update results' button
@@ -159,10 +147,7 @@ public class stockInfo {
 	static public List<WebElement> tableDates(WebDriver driver) {
 		List<WebElement> tableDates = driver.findElements(By.xpath("//*[@id=\"download-data-tabs\"]/div/div[1]/table/tbody/child::tr/td[1]/div[1]"));
 		return tableDates;
-	}
-	
-	
-	
+	}	
 	
 	// stock's page >> historical quotes >> next page button
 	static public WebElement nextPageBtn(WebDriver driver) {
@@ -257,12 +242,7 @@ public class stockInfo {
 			System.out.println(tableDates(driver).size());
 		} catch (Exception e) {
 			System.err.println("Couldn't print the dates out of the historical dates table");
-		}
-		
-		
-		
-		
-		
+		}		
 		
 		driver.quit();
 	}
