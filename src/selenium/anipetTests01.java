@@ -2,9 +2,11 @@ package selenium;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Before;
+import java.util.Iterator;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,6 +24,7 @@ class anipetTests01 {
 	static String emailErr = "אנא הזן דואר אלקטרוני";
 	static String passErr = "אנא הזן סיסמא; שדה אימות הסיסמא לא תואם לסיסמא";
 	static String passConfErr = "שדה אימות הסיסמא לא תואם לסיסמא";
+	static String wrongDitsErr = "הדואר אלקטרוני או הסיסמא שהזנת לא נכונים. אנא נסה שוב";
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -43,6 +46,7 @@ class anipetTests01 {
 		assertEquals(homeTitle, title);
 	}
 	
+	@Tag("signUp")
 	@Test
 	void signUpBlankFName() throws InterruptedException {
 		anipetWE.signUpBtn(driver).click();
@@ -59,6 +63,7 @@ class anipetTests01 {
 		Thread.sleep(1000);
 	}
 	
+	@Tag("signUp")
 	@Test
 	void signUpBlankLName() throws InterruptedException {
 		anipetWE.signUpBtn(driver).click();
@@ -75,6 +80,7 @@ class anipetTests01 {
 		Thread.sleep(1000);
 	}
 	
+	@Tag("signUp")
 	@Test
 	void signUpBlankEmail() throws InterruptedException {
 		anipetWE.signUpBtn(driver).click();
@@ -91,6 +97,7 @@ class anipetTests01 {
 		Thread.sleep(1000);
 	}
 	
+	@Tag("signUp")
 	@Test
 	void signUpBlankPassword() throws InterruptedException {
 		anipetWE.signUpBtn(driver).click();
@@ -107,6 +114,7 @@ class anipetTests01 {
 		Thread.sleep(1000);
 	}
 	
+	@Tag("signUp")
 	@Test
 	void signUpBlankConfirmPassword() throws InterruptedException {
 		anipetWE.signUpBtn(driver).click();
@@ -123,7 +131,40 @@ class anipetTests01 {
 		Thread.sleep(1000);
 	}
 	
+	@Tag("signIn")
+	@Test
+	void signInWrongDetails() throws InterruptedException {
+		anipetWE.signInBtn(driver).click();
+		Thread.sleep(2000);
+		anipetWE.SIEmail(driver).sendKeys(email);
+		anipetWE.SIPass(driver).sendKeys(pass);
+		anipetWE.SIBtn(driver).click();
+		Thread.sleep(1000);
+		String ErrMsg = anipetWE.SIErrMsg(driver).getText();
+		assertEquals(wrongDitsErr, ErrMsg);
+		anipetWE.SIXBtn(driver).click();
+		Thread.sleep(1000);
+	}
 	
+	@Tag("navBar")
+	@Test
+	void navBarTest() throws InterruptedException {
+		for (int i = 1; i <= anipetWE.mainNavBar(driver).size()-4; i++) {
+			String optionName = anipetWE.mainNavBar(driver).get(i).getText();
+			anipetWE.mainNavBar(driver).get(i).click();
+			Thread.sleep(500);
+			if (driver.getTitle().contains(optionName)) {
+				System.out.println(optionName + " is OK");
+				continue;
+			}else {
+				System.err.println(optionName + " isn't OK");
+				break;
+			}
+			
+		}
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(1000);
+	}
 	
 	
 	
