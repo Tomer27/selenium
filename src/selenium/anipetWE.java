@@ -28,12 +28,6 @@ public class anipetWE {
 		return mainNavBar;
 	}
 	
-	// navigation bar Strings @ home page
-	static public List<WebElement> mainNavBarNames(WebDriver driver) {
-		List<WebElement> mainNavBarNames = driver.findElements(By.xpath("//*[@id=\\\"mainapp\\\"]/div[2]/div[2]/div[2]/div/div/ul/li/a/span"));
-		return mainNavBarNames;
-	}
-	
 	// first name field @ sign up window
 	static public WebElement SUFName(WebDriver driver) {
 		WebElement SUFName = driver.findElement(By.id("FirstName"));
