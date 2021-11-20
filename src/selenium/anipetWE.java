@@ -22,6 +22,18 @@ public class anipetWE {
 		return signInBtn;
 	}
 	
+	// search field @ home page
+	static public WebElement srchFld(WebDriver driver) {
+		WebElement srchFld = driver.findElement(By.xpath("//*[@id=\"searchform\"]/input"));
+		return srchFld;
+	}
+	
+	// search button @ home page
+	static public WebElement srchBtn(WebDriver driver) {
+		WebElement srchBtn = driver.findElement(By.xpath("//*[@id=\"searchform\"]/button"));
+		return srchBtn;
+	}
+	
 	// navigation bar @ home page
 	static public List<WebElement> mainNavBar(WebDriver driver) {
 		List<WebElement> mainNavBar = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[2]/div[2]/div[2]/div/div/ul/child::li"));
@@ -106,6 +118,29 @@ public class anipetWE {
 		return SIXBtn;
 	}
 	
+	// sub-categories list @ random pet's screen
+	static public List<WebElement> subCtgry(WebDriver driver) {
+		List<WebElement> subCtgry = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[6]/div/div[2]/div[2]/if/div/div/section/div/child::div/a"));
+		return subCtgry;
+	}
+	
+	// sub-category name @ sub-category screen
+	static public WebElement subCName(WebDriver driver) {
+		WebElement subCName = driver.findElement(By.xpath("//*[@id=\"mainapp\"]/div[6]/div/div[2]/div[2]/if/div/div/h1"));
+		return subCName;
+	}
+	
+	// list of search results @ search results screen
+	static public List<WebElement> results(WebDriver driver) {
+		List<WebElement> results = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[6]/div/div[2]/div[2]/if/div/div/div[3]/child::div/div/div/a[1]/h5"));
+		return results;
+	}
+	
+	// list of page buttons @ search results screen
+	static public List<WebElement> resPages(WebDriver driver) {
+		List<WebElement> resPages = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[6]/div/div[2]/div[2]/if/div/div/nav/ul/child::li/a"));
+		return resPages;
+	}
 	
 	
 	
