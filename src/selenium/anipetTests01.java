@@ -247,14 +247,18 @@ class anipetTests01 {
 					break;
 				}
 			}
-			for (int q = 0; q < anipetWE.resPages(driver).size(); q++) {
-				String pageX = anipetWE.resPages(driver).get(q).getText();
-				if (pageX.equals(nextPageSign)) {
-					anipetWE.resPages(driver).get(q).click();
-				}else {
-					continue;
+			try {
+				for (int q = 0; q < anipetWE.resPages(driver).size(); q++) {
+					String pageX = anipetWE.resPages(driver).get(q).getText();
+					if (pageX.equals(nextPageSign)) {
+						anipetWE.resPages(driver).get(q).click();
+					}else {
+						continue;
+					}
 				}
-			}
+			} catch (Exception e) {
+				
+			}			
 		}
 		anipetWE.mainNavBar(driver).get(0).click();
 		Thread.sleep(500);
