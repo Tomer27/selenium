@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -15,20 +16,28 @@ class anipetTests01 {
 	static String homeTitle = "אניפט רשת חנויות לחיות מחמד";
 	static String fName = "יוסי";
 	static String lName = "כהן";
+	static String fullName = "וסי כהן";
 	static String email = "yossiCohen1717@walla.com";
 	static String email2 = "yossillll2122@mailinator.com"; // needs to be changed each run to a new address
 	static String pass = "yossi123";
+	static String phoneNum = "0581111111";
+	static String messageContent = "aaaaaaaaaaaaa";
 	static String fNameErr = "אנא הכנס שם פרטי";
 	static String lNameErr = "אנא הכנס שם משפחה";
+	static String fullNameErr = "אנא הזן שם";
 	static String emailErr = "אנא הזן דואר אלקטרוני";
 	static String passErr = "אנא הזן סיסמא; שדה אימות הסיסמא לא תואם לסיסמא";
 	static String passConfErr = "שדה אימות הסיסמא לא תואם לסיסמא";
 	static String wrongDitsErr = "הדואר אלקטרוני או הסיסמא שהזנת לא נכונים. אנא נסה שוב";
+	static String phoneNumErr = "אנא הזן מס' טלפון";
 	static String persArea = "אזור אישי";
 	static String logOut = "התנתק";
 	static String exstUser = "User name '" + email2 + "' is already taken."; // email needs to be changed according to 'email2'
 	static String srchObject = "קולר";
 	static String nextPageSign = "»";
+	static String contact = "צור קשר";
+	static String totalBuy = "150";
+	static String shipCost = "חינם";
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -261,12 +270,144 @@ class anipetTests01 {
 			}			
 		}
 		anipetWE.mainNavBar(driver).get(0).click();
-		Thread.sleep(500);
-		
-		
+		Thread.sleep(500);		
 	}
 	
+	@Tag("payment")
+	@Test
+	void finalPaymentTest() throws InterruptedException {
+		anipetWE.mainNavBar(driver).get(1).click();
+		Thread.sleep(100);
+		anipetWE.dogDisc(driver).click();
+		Thread.sleep(100);
+		int sumBuy = 0;
+		for (int i = 0; i < 3; i++) {
+			String priceStr = anipetWE.itemsListPrices(driver).get(i).getText().replace("₪", "");
+			int price = Integer.parseInt(priceStr);
+			sumBuy += price;
+		}
+		System.out.println("Expected sum of the first 3 items: " + sumBuy + "₪");
+		for (int i = 0; i < 3; i++) {
+			anipetWE.add2CartBtns(driver).get(i).click();
+			Thread.sleep(1000);
+			anipetWE.cartXBtn(driver).click();
+			Thread.sleep(1000);
+		}
+		anipetWE.mainNavBar(driver).get(8).click();
+		Thread.sleep(1000);
+		String totalPayStr = anipetWE.totalPayment(driver).getText().replace("₪", "").replace(".00", "");
+		int totalPay = Integer.parseInt(totalPayStr);
+		System.out.println("Actual sum of the first 3 items: " + totalPay + "₪");
+		anipetWE.mainNavBar(driver).get(0).click();
+		assertEquals(sumBuy, totalPay);
+		Thread.sleep(500);
+	}
 	
+	@Tag("contactUs")
+	@Test
+	void contactUsBlankName() throws InterruptedException {
+		for (int i = 0; i < anipetWE.infoOptions(driver).size(); i++) {
+			String optionX = anipetWE.infoOptions(driver).get(i).getText();
+			if (optionX.equals(contact)) {
+				anipetWE.infoOptions(driver).get(i).click();
+			}else {
+				continue;
+			}
+		}
+		Thread.sleep(1000);
+		anipetWE.CUEmail(driver).sendKeys(email2);
+		anipetWE.CUPhone(driver).sendKeys(phoneNum);
+		anipetWE.CUMessage(driver).sendKeys(messageContent);
+		anipetWE.CUSendBtn(driver).click();
+		Thread.sleep(1500);
+		String errorMessage = anipetWE.CUErrorMessage(driver).getText();
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);
+		assertEquals(fullNameErr, errorMessage);		
+	}
+	
+	@Tag("contactUs")
+	@Test
+	void contactUsBlankEmail() throws InterruptedException {
+		for (int i = 0; i < anipetWE.infoOptions(driver).size(); i++) {
+			String optionX = anipetWE.infoOptions(driver).get(i).getText();
+			if (optionX.equals(contact)) {
+				anipetWE.infoOptions(driver).get(i).click();
+			}else {
+				continue;
+			}
+		}
+		Thread.sleep(1000);
+		anipetWE.CUName(driver).sendKeys(fullName);
+		anipetWE.CUPhone(driver).sendKeys(phoneNum);
+		anipetWE.CUMessage(driver).sendKeys(messageContent);
+		anipetWE.CUSendBtn(driver).click();
+		Thread.sleep(1500);
+		String errorMessage = anipetWE.CUErrorMessage(driver).getText();
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);
+		assertEquals(emailErr, errorMessage);
+	}
+	
+	@Tag("contactUs")
+	@Test
+	void contactUsBlankPhoneNumber() throws InterruptedException {
+		for (int i = 0; i < anipetWE.infoOptions(driver).size(); i++) {
+			String optionX = anipetWE.infoOptions(driver).get(i).getText();
+			if (optionX.equals(contact)) {
+				anipetWE.infoOptions(driver).get(i).click();
+			}else {
+				continue;
+			}
+		}
+		Thread.sleep(1000);
+		anipetWE.CUName(driver).sendKeys(fullName);
+		anipetWE.CUEmail(driver).sendKeys(email2);
+		anipetWE.CUMessage(driver).sendKeys(messageContent);
+		anipetWE.CUSendBtn(driver).click();
+		Thread.sleep(1500);
+		String errorMessage = anipetWE.CUErrorMessage(driver).getText();
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);
+		assertEquals(phoneNumErr, errorMessage);
+	}
+	
+	@Tag("itemDisplay")
+	@Test
+	void numberOfItemsDisplayed() throws InterruptedException {
+		anipetWE.mainNavBar(driver).get(2).click();
+		Thread.sleep(500);
+		anipetWE.subCtgry(driver).get(2).click();
+		Thread.sleep(500);
+		for (int i = 0; i < anipetWE.itemsDisplayed(driver).size(); i++) {
+			anipetWE.pageSize(driver).click();
+			String display = anipetWE.itemsDisplayed(driver).get(i).getText();
+			int displayNum = Integer.parseInt(display);
+			anipetWE.itemsDisplayed(driver).get(i).click();
+			Thread.sleep(500);
+			int itemsOnScreen = anipetWE.itemsList(driver).size();
+			assertEquals(displayNum, itemsOnScreen);
+		}
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);
+	}
+	
+	@Tag("shipment")
+	@Test
+	void freeShipmentAbove150() throws InterruptedException {
+		anipetWE.freeShippingBtn(driver).click();
+		Thread.sleep(500);
+		for (int i = 0; i < anipetWE.FSCitiesList(driver).size(); i++) {
+			anipetWE.FSPickCity(driver).click();
+			anipetWE.FSCitiesList(driver).get(i).click();
+			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
+			anipetWE.FSFreeCheckBtn(driver).click();
+			Thread.sleep(200);
+			String shipCostX = anipetWE.FSShipCost(driver).getText();
+			assertEquals(shipCost, shipCostX);
+		}
+		
+	}
 	
 
 }
