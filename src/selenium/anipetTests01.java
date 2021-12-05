@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -14,6 +13,7 @@ class anipetTests01 {
 
 	static WebDriver driver;
 	static String homeTitle = "אניפט רשת חנויות לחיות מחמד";
+	static String homeURL = "https://www.anipet.co.il/";
 	static String fName = "יוסי";
 	static String lName = "כהן";
 	static String fullName = "וסי כהן";
@@ -53,10 +53,24 @@ class anipetTests01 {
 		driver.quit();
 	}
 
+	@Tag("homePageGUI")
 	@Test
 	void titleTest() {
 		String title = driver.getTitle();
 		assertEquals(homeTitle, title);
+	}
+	
+	@Tag("homePageGUI")
+	@Test
+	void homePageBtnTest() throws InterruptedException {
+		for (int i = 0; i < anipetWE.mainNavBar(driver).size()-2; i++) {
+			anipetWE.mainNavBar(driver).get(i).click();
+			anipetWE.homePageBtn(driver).click();
+			String pageURL = driver.getCurrentUrl();
+			assertEquals(homeURL, pageURL);
+		}
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);
 	}
 	
 	@Tag("signUp")
@@ -392,22 +406,22 @@ class anipetTests01 {
 		Thread.sleep(500);
 	}
 	
-	@Tag("shipment")
-	@Test
-	void freeShipmentAbove150() throws InterruptedException {
-		anipetWE.freeShippingBtn(driver).click();
-		Thread.sleep(500);
-		for (int i = 0; i < anipetWE.FSCitiesList(driver).size(); i++) {
-			anipetWE.FSPickCity(driver).click();
-			anipetWE.FSCitiesList(driver).get(i).click();
-			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
-			anipetWE.FSFreeCheckBtn(driver).click();
-			Thread.sleep(200);
-			String shipCostX = anipetWE.FSShipCost(driver).getText();
-			assertEquals(shipCost, shipCostX);
-		}
-		
-	}
+//	@Tag("shipment")
+//	@Test
+//	void freeShipmentAbove150() throws InterruptedException {
+//		anipetWE.freeShippingBtn(driver).click();
+//		Thread.sleep(500);
+//		for (int i = 0; i < anipetWE.FSCitiesList(driver).size(); i++) {
+//			anipetWE.FSPickCity(driver).click();
+//			anipetWE.FSCitiesList(driver).get(i).click();
+//			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
+//			anipetWE.FSFreeCheckBtn(driver).click();
+//			Thread.sleep(200);
+//			String shipCostX = anipetWE.FSShipCost(driver).getText();
+//			assertEquals(shipCost, shipCostX);
+//		}
+//		
+//	}
 	
 
 }

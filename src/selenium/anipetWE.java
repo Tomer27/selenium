@@ -10,6 +10,12 @@ public class anipetWE {
 	
 	static WebDriver driver;
 	
+	// home page button @ every page
+	static public WebElement homePageBtn(WebDriver driver) {
+		 WebElement homePageBtn = driver.findElement(By.xpath("//*[@id=\"mainapp\"]/div[2]/div[2]/div[1]/div/div[1]/a/img"));
+		 return homePageBtn;
+	}
+	
 	// sign up button @ home page
 	static public WebElement signUpBtn(WebDriver driver) {
 		WebElement signUpBtn = driver.findElement(By.xpath("//*[@id=\"mainapp\"]/div[2]/div[2]/div[1]/div/div[2]/div/ul/li[2]/a"));
