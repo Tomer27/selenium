@@ -58,10 +58,33 @@ public class anipetWE {
 		return freeShippingBtn;
 	}
 	
+	// list of brand links @ home page
+	static public List<WebElement> brandUrls(WebDriver driver) {
+		List<WebElement> brandUrls = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[8]/div[2]/div/ul/child::li/a"));
+		return brandUrls;
+	}
+	// list of brand names @ home page
+	static public List<WebElement> brandNames(WebDriver driver) {
+		List<WebElement> brandNames = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[8]/div[2]/div/ul/child::li/a/small"));
+		return brandNames;
+	}
+	
+	// list of brand results @ brand results page
+	static public List<WebElement> brandRes(WebDriver driver) {
+		List<WebElement> brandRes = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[6]/div/div[2]/div[2]/if/div/div/div[3]/child::div/div/div/a[1]"));
+		return brandRes;
+	}
+	
 	// list of URLs under 'Info' @ bottom of the home page
 	static public List<WebElement> infoOptions(WebDriver driver) {
 		List<WebElement> infoOptions = driver.findElements(By.xpath("//*[@id=\"secondfooterlist\"]/ul/child::li/a"));
 		return infoOptions;
+	}
+	
+	// list of social media links @ bottom of the home page
+	static public List<WebElement> socialMediaBtnList(WebDriver driver) {
+		List<WebElement> socialMediaBtnList = driver.findElements(By.xpath("//*[@id=\"mainapp\"]/div[9]/footer/div/section[4]/ul/li[2]/child::a"));
+		return socialMediaBtnList;
 	}
 	
 	// first name field @ sign up window

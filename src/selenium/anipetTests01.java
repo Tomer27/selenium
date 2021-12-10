@@ -2,6 +2,8 @@ package selenium;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.Driver;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -9,16 +11,19 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.android.dx.io.Code.Try;
+
 class anipetTests01 {
 
 	static WebDriver driver;
 	static String homeTitle = "אניפט רשת חנויות לחיות מחמד";
+	static String homeName = "anipet";
 	static String homeURL = "https://www.anipet.co.il/";
 	static String fName = "יוסי";
 	static String lName = "כהן";
 	static String fullName = "וסי כהן";
 	static String email = "yossiCohen1717@walla.com";
-	static String email2 = "yossillll2122@mailinator.com"; // needs to be changed each run to a new address
+	static String email2 = "yossillll2122@mailinator.com"; // needs to be changed each 'signUp' run to a new address
 	static String pass = "yossi123";
 	static String phoneNum = "0581111111";
 	static String messageContent = "aaaaaaaaaaaaa";
@@ -36,8 +41,10 @@ class anipetTests01 {
 	static String srchObject = "קולר";
 	static String nextPageSign = "»";
 	static String contact = "צור קשר";
-	static String totalBuy = "150";
+	static String totalBuy = "300";
 	static String shipCost = "חינם";
+	static String facebookURL = "https://www.facebook.com/anipet.stores/";
+	static String instagramURL = "https://www.instagram.com/anipet_israel/";
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -303,15 +310,18 @@ class anipetTests01 {
 		System.out.println("Expected sum of the first 3 items: " + sumBuy + "₪");
 		for (int i = 0; i < 3; i++) {
 			anipetWE.add2CartBtns(driver).get(i).click();
-			Thread.sleep(1000);
+			Thread.sleep(1200);
 			anipetWE.cartXBtn(driver).click();
-			Thread.sleep(1000);
+			Thread.sleep(1200);
 		}
-		anipetWE.mainNavBar(driver).get(8).click();
 		Thread.sleep(1000);
+		anipetWE.mainNavBar(driver).get(8).click();
+		Thread.sleep(2000);
 		String totalPayStr = anipetWE.totalPayment(driver).getText().replace("₪", "").replace(".00", "");
 		int totalPay = Integer.parseInt(totalPayStr);
 		System.out.println("Actual sum of the first 3 items: " + totalPay + "₪");
+		anipetWE.cartXBtn(driver).click();
+		Thread.sleep(1000);
 		anipetWE.mainNavBar(driver).get(0).click();
 		assertEquals(sumBuy, totalPay);
 		Thread.sleep(500);
@@ -406,22 +416,77 @@ class anipetTests01 {
 		Thread.sleep(500);
 	}
 	
-//	@Tag("shipment")
-//	@Test
-//	void freeShipmentAbove150() throws InterruptedException {
-//		anipetWE.freeShippingBtn(driver).click();
-//		Thread.sleep(500);
-//		for (int i = 0; i < anipetWE.FSCitiesList(driver).size(); i++) {
-//			anipetWE.FSPickCity(driver).click();
-//			anipetWE.FSCitiesList(driver).get(i).click();
-//			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
-//			anipetWE.FSFreeCheckBtn(driver).click();
-//			Thread.sleep(200);
-//			String shipCostX = anipetWE.FSShipCost(driver).getText();
-//			assertEquals(shipCost, shipCostX);
-//		}
-//		
-//	}
+	@Tag("shipment")
+	@Test
+	void freeShipmentAbove300() throws InterruptedException {
+		anipetWE.freeShippingBtn(driver).click();
+		Thread.sleep(500);
+		for (int i = 1; i < anipetWE.FSCitiesList(driver).size(); i++) {
+			anipetWE.FSPickCity(driver).click();
+			anipetWE.FSCitiesList(driver).get(i).click();
+			anipetWE.FSSumPay(driver).clear();
+			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
+			anipetWE.FSFreeCheckBtn(driver).click();
+			Thread.sleep(1000);
+			String shipCostX = anipetWE.FSShipCost(driver).getAttribute("value");
+			assertEquals(shipCost, shipCostX);
+		}
+		Thread.sleep(500);
+		anipetWE.mainNavBar(driver).get(0).click();
+		Thread.sleep(500);		
+	}
+	
+	@Tag("socialMedia")
+	@Test
+	void socialMediaLinks() throws InterruptedException {
+		anipetWE.socialMediaBtnList(driver).get(0).click();
+		Thread.sleep(500);
+		String fbURL = driver.getCurrentUrl();
+		if (fbURL.equals(facebookURL)) {
+			System.out.println("Facebook URL - OK");
+		}else {
+			System.err.println("Facebook URL - NOT OK");
+		}
+		driver.get(homeURL);
+		Thread.sleep(500);
+		anipetWE.socialMediaBtnList(driver).get(1).click();
+		Thread.sleep(500);
+		String instaURL = driver.getCurrentUrl();
+		if (instaURL.equals(instagramURL)) {
+			System.out.println("Instagram URL - OK");
+		}else {
+			System.err.println("Instagram URL - NOT OK");
+		}
+		driver.get(homeURL);
+		Thread.sleep(500);
+	}
+	
+	@Tag("brands")
+	@Test
+	void brandLinks() throws InterruptedException {
+		for (int i = 0; i < anipetWE.brandUrls(driver).size(); i++) {
+			String nameX = anipetWE.brandNames(driver).get(i).getText();
+			try {
+				anipetWE.brandUrls(driver).get(i).click();
+				System.out.println("Clicked on " + nameX);
+				Thread.sleep(1000);
+			}catch (Exception e) {
+				System.out.println("Problen with clicking on " + nameX);
+			}			
+			for (int j = 0; j < anipetWE.brandRes(driver).size(); j++) {
+				String resNameX = anipetWE.brandRes(driver).get(j).getAttribute("text");
+				if (resNameX.contains(nameX)) {
+					continue;
+				}else {
+					System.out.println("Check result #" + (j+1) + " in brand name - " + nameX);
+					continue;
+				}
+			}
+			System.out.println("Finished with " + nameX);
+			driver.get(homeURL);
+			Thread.sleep(500);			
+		}
+	}
 	
 
 }
