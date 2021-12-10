@@ -37,7 +37,7 @@ class anipetTests01 {
 	static String srchObject = "קולר";
 	static String nextPageSign = "»";
 	static String contact = "צור קשר";
-	static String totalBuy = "300";
+	static String totalBuy = "150";
 	static String shipCost = "חינם";
 	static String facebookURL = "https://www.facebook.com/anipet.stores/";
 	static String instagramURL = "https://www.instagram.com/anipet_israel/";
@@ -414,19 +414,29 @@ class anipetTests01 {
 	
 	@Tag("shipment")
 	@Test
-	void freeShipmentAbove300() throws InterruptedException {
+	void freeShipmentAbove150() throws InterruptedException {
 		anipetWE.freeShippingBtn(driver).click();
 		Thread.sleep(500);
+		int failSum = 0;
 		for (int i = 1; i < anipetWE.FSCitiesList(driver).size(); i++) {
 			anipetWE.FSPickCity(driver).click();
+			String cityX = anipetWE.FSCitiesList(driver).get(i).getText();
 			anipetWE.FSCitiesList(driver).get(i).click();
 			anipetWE.FSSumPay(driver).clear();
 			anipetWE.FSSumPay(driver).sendKeys(totalBuy);
 			anipetWE.FSFreeCheckBtn(driver).click();
 			Thread.sleep(1000);
 			String shipCostX = anipetWE.FSShipCost(driver).getAttribute("value");
-			assertEquals(shipCost, shipCostX);
+			if (shipCostX.equals(shipCost)) {
+				continue;
+			}else {
+				System.out.println(i + ". " + cityX + " doesn't have free shipping for order of 150₪");
+				failSum += 1;
+				continue;
+			}
 		}
+		int cities = anipetWE.FSCitiesList(driver).size();
+		System.out.println(failSum + " fails out of " + cities);
 		Thread.sleep(500);
 		anipetWE.mainNavBar(driver).get(0).click();
 		Thread.sleep(500);		
