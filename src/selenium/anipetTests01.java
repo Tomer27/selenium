@@ -2,16 +2,12 @@ package selenium;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.sql.Driver;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import com.android.dx.io.Code.Try;
 
 class anipetTests01 {
 
@@ -471,18 +467,22 @@ class anipetTests01 {
 				System.out.println("Clicked on " + nameX);
 				Thread.sleep(1000);
 			}catch (Exception e) {
-				System.out.println("Problen with clicking on " + nameX);
+				System.err.println("Problen with clicking on " + nameX);
 			}			
-			for (int j = 0; j < anipetWE.brandRes(driver).size(); j++) {
-				String resNameX = anipetWE.brandRes(driver).get(j).getAttribute("text");
-				if (resNameX.contains(nameX)) {
-					continue;
-				}else {
-					System.out.println("Check result #" + (j+1) + " in brand name - " + nameX);
-					continue;
+			try {
+				for (int j = 0; j < anipetWE.brandRes(driver).size(); j++) {
+					String resNameX = anipetWE.brandRes(driver).get(j).getAttribute("text");
+					if (resNameX.contains(nameX)) {
+						continue;
+					}else {
+						System.err.println("Check result #" + (j+1) + " in brand name - " + nameX);
+						continue;
+					}
 				}
-			}
-			System.out.println("Finished with " + nameX);
+				System.out.println("Finished with " + nameX);
+			} catch (Exception e) {
+				
+			}			
 			driver.get(homeURL);
 			Thread.sleep(500);			
 		}
